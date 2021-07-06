@@ -21,8 +21,9 @@ const Home = () => {
           <h1>Loading posts...</h1>
         ) : (
           posts &&
+          posts !== undefined &&
           posts.map((post) => (
-            <Grid.Column key={post.id}>
+            <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
               <PostCard post={post} />
             </Grid.Column>
           ))
@@ -37,19 +38,21 @@ const FETCH_POSTS_QUERY = gql`
     getPosts {
       id
       body
-      createAt
-      username
-      likeCount
-      likes {
-        username
-      }
-      commentCount
       comments {
+        id
+        body
+        username
+        createAt
+      }
+      likes {
         id
         username
         createAt
-        body
       }
+      likeCount
+      commentCount
+      createAt
+      username
     }
   }
 `;
