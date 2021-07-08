@@ -17,12 +17,11 @@ const Register = () => {
   };
 
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
-    update(proxy, result) {
-      console.log(result);
+    update(_, { data: { register: userData } }) {
+      console.log(userData);
     },
     onError(err) {
-      console.log(err.graphQLErrors[0].extensions.exception.error);
-      setErrors(err.graphQLErrors[0].extensions.exception.error);
+      setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
     variables: values,
   });
@@ -42,7 +41,7 @@ const Register = () => {
           name='username'
           type='text'
           value={values.username}
-          error={errors?.username ? true : false}
+          error={errors.username ? true : false}
           onChange={onChange}
         />
         <Form.Input
@@ -51,7 +50,7 @@ const Register = () => {
           name='email'
           type='email'
           value={values.email}
-          error={errors?.email ? true : false}
+          error={errors.email ? true : false}
           onChange={onChange}
         />
         <Form.Input
@@ -60,7 +59,7 @@ const Register = () => {
           name='password'
           type='password'
           value={values.password}
-          error={errors?.password ? true : false}
+          error={errors.password ? true : false}
           onChange={onChange}
         />
         <Form.Input
@@ -69,7 +68,7 @@ const Register = () => {
           name='confirmPassword'
           type='password'
           value={values.confirmPassword}
-          error={errors?.confirmPassword ? true : false}
+          error={errors.confirmPassword ? true : false}
           onChange={onChange}
         />
 
@@ -109,7 +108,7 @@ const REGISTER_USER = gql`
       id
       email
       username
-      createAt
+      createdAt
       token
     }
   }
