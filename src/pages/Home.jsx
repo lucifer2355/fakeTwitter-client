@@ -9,8 +9,6 @@ const Home = () => {
   const { loading, data: { getPosts: posts } = [] } =
     useQuery(FETCH_POSTS_QUERY);
 
-  console.log(loading);
-
   return (
     <Grid columns={3}>
       <Grid.Row className='page-title'>
