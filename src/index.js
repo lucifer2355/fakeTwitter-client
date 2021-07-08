@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 
 import ApolloProvider from "./ApolloProvider";
 import reportWebVitals from "./reportWebVitals";
+import "./App.css";
 
 ReactDOM.render(
   <React.StrictMode>{ApolloProvider}</React.StrictMode>,
