@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
-import { gql } from "graphql-tag";
+import gql from "graphql-tag";
 
 const Register = () => {
   const [errors, setErrors] = useState({});
@@ -13,10 +13,10 @@ const Register = () => {
   });
 
   const onChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.values });
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const [addUser, { loading }] = useMutation(REGISTER_USER, {
+  const [addUser, { loading, error }] = useMutation(REGISTER_USER, {
     update(_, { data: { register: userData } }) {
       console.log(userData);
     },
@@ -108,7 +108,7 @@ const REGISTER_USER = gql`
       id
       email
       username
-      createdAt
+      createAt
       token
     }
   }
