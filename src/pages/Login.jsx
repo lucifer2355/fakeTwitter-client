@@ -3,22 +3,18 @@ import { Button, Form } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 
+import { useForm } from "../utils/hooks";
+
 const Login = ({ history }) => {
   const [errors, setErrors] = useState({});
-  const [values, setValues] = useState({
+
+  const { onChange, onSubmit, values } = useForm(loginUserCallback, {
     username: "",
-    email: "",
     password: "",
-    confirmPassword: "",
   });
 
-  const onChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
-  const [addUser, { loading }] = useMutation(REGISTER_USER, {
-    update(_, { data: { register: userData } }) {
-      console.log(userData);
+  const [loginUser, { loading }] = useMutation(LOGIN_USER, {
+    update(_, result) {
       history.push("/");
     },
     onError(err) {
@@ -27,10 +23,9 @@ const Login = ({ history }) => {
     variables: values,
   });
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    addUser();
-  };
+  function loginUserCallback() {
+    loginUser();
+  }
 
   return (
     <div className='form-container'>
@@ -73,21 +68,9 @@ const Login = ({ history }) => {
   );
 };
 
-const REGISTER_USER = gql`
-  mutation register(
-    $username: String!
-    $email: String!
-    $password: String!
-    $confirmPassword: String!
-  ) {
-    register(
-      registerInput: {
-        username: $username
-        email: $email
-        password: $password
-        confirmPassword: $confirmPassword
-      }
-    ) {
+const LOGIN_USER = gql`
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
       id
       email
       username
