@@ -11,10 +11,6 @@ const PostCard = ({
 }) => {
   const { user } = useContext(AuthContext);
 
-  const likePost = () => {
-    console.log("like post");
-  };
-
   return (
     <Card>
       <Card.Content>
@@ -30,7 +26,7 @@ const PostCard = ({
         <Card.Description>{body}</Card.Description>
       </Card.Content>
       <Card.Content extra>
-        <LikeButton likeCount={likeCount} />
+        <LikeButton user={user} post={{ id, likes, likeCount }} />
 
         <Button as='div' labelPosition='right' as={Link} to={`/posts/${id}`}>
           <Button color='blue' basic>
