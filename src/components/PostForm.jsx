@@ -1,15 +1,26 @@
 import React from "react";
 import { Form, Button } from "semantic-ui-react";
+import { useMutation } from "@apollo/client";
+import { gql } from "graphql-tag";
 
 import { useForm } from "../utils/hooks";
-import { gql } from "graphql-tag";
 
 const PostForm = () => {
   const { onSubmit, onChange, values } = useForm(createPostCallback, {
     body: "",
   });
 
-  function createPostCallback() {}
+  const [createPost, { error }] = useMutation(CREATE_POST_MUTATION, {
+    variables: values,
+    update(_, result) {
+      console.log(result);
+      values.body = "";
+    },
+  });
+
+  function createPostCallback() {
+    createPost();
+  }
 
   return (
     <Form onSubmit={onSubmit}>
