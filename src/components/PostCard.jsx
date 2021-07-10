@@ -4,6 +4,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 
 import { AuthContext } from "../context/auth";
+import LikeButton from "./LikeButton";
 
 const PostCard = ({
   post: { body, createAt, id, username, likeCount, commentCount, likes },
@@ -29,14 +30,7 @@ const PostCard = ({
         <Card.Description>{body}</Card.Description>
       </Card.Content>
       <Card.Content extra>
-        <Button as='div' labelPosition='right' onClick={likePost}>
-          <Button color='teal' basic>
-            <Icon name='heart' />
-          </Button>
-          <Label basic color='teal' pointing='left'>
-            {likeCount}
-          </Label>
-        </Button>
+        <LikeButton likeCount={likeCount} />
 
         <Button as='div' labelPosition='right' as={Link} to={`/posts/${id}`}>
           <Button color='blue' basic>
