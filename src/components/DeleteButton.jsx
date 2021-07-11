@@ -6,12 +6,12 @@ import { DELETE_POST_MUTATION } from "../graphql/mutation/deletePost";
 const DeleteButton = ({ postId }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
 
-  const { deletePost } = useMutation(DELETE_POST_MUTATION, {
-    variables: {
-      postId,
-    },
+  const [deletePost] = useMutation(DELETE_POST_MUTATION, {
     update() {
       setConfirmOpen(false);
+    },
+    variables: {
+      postId,
     },
   });
 
@@ -21,7 +21,7 @@ const DeleteButton = ({ postId }) => {
         as='div'
         color='red'
         floated='right'
-        onClick={() => console.log("Delete post")}
+        onClick={() => setConfirmOpen(true)}
       >
         <Icon name='trash' style={{ margin: 0 }} />
       </Button>
