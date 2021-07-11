@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import {
   Grid,
@@ -18,8 +18,9 @@ import LikeButton from "../components/LikeButton";
 import DeleteButton from "../components/DeleteButton";
 
 const SinglePost = ({ match, history }) => {
-  const { user } = useContext(AuthContext);
   const postId = match.params.postId;
+  const { user } = useContext(AuthContext);
+  const commentInputRef = useRef(null);
 
   const [comment, setComment] = useState("");
 
@@ -28,10 +29,10 @@ const SinglePost = ({ match, history }) => {
       postId,
     },
   });
-
   const [submitComment] = useMutation(CREATE_COMMENT_MUTATION, {
     update() {
       setComment("");
+      commentInputRef.current.blur();
     },
     variables: {
       postId,
@@ -110,6 +111,7 @@ const SinglePost = ({ match, history }) => {
                         name='comment'
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
+                        ref={commentInputRef}
                       />
                       <button
                         type='submit'
