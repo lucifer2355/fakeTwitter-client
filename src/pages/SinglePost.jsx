@@ -38,7 +38,7 @@ const SinglePost = ({ match, history }) => {
     } = getPost;
 
     postMarkup = (
-      <Grid>
+      <Grid style={{ marginTop: 1 }}>
         <Grid.Row>
           <Grid.Column width={2}>
             <Image
@@ -76,6 +76,16 @@ const SinglePost = ({ match, history }) => {
                 )}
               </Card.Content>
             </Card>
+
+            {comments.map((comment) => (
+              <Card fluid key={comment.id}>
+                <Card.Content>
+                  <Card.Header>{comment.username}</Card.Header>
+                  <Card.Meta>{moment(comment.createAt).fromNow()}</Card.Meta>
+                  <Card.Description>{comment.body}</Card.Description>
+                </Card.Content>
+              </Card>
+            ))}
           </Grid.Column>
         </Grid.Row>
       </Grid>
