@@ -6,8 +6,9 @@ import moment from "moment";
 import { FETCH_POST_QUERY } from "../graphql/query/fetchPost";
 import { AuthContext } from "../context/auth";
 import LikeButton from "../components/LikeButton";
+import DeleteButton from "../components/DeleteButton";
 
-const SinglePost = ({ match }) => {
+const SinglePost = ({ match, history }) => {
   const { user } = useContext(AuthContext);
   const postId = match.params.postId;
 
@@ -16,6 +17,10 @@ const SinglePost = ({ match }) => {
       postId,
     },
   });
+
+  function deletePostCallback() {
+    history.push("/");
+  }
 
   let postMarkup;
   if (!getPost) {
@@ -38,7 +43,7 @@ const SinglePost = ({ match }) => {
           <Grid.Column width={2}>
             <Image
               floated='right'
-              size='mini'
+              size='small'
               src='https://semantic-ui.com/images/avatar2/large/matthew.png'
             />
           </Grid.Column>
@@ -66,6 +71,9 @@ const SinglePost = ({ match }) => {
                     {commentCount}
                   </Label>
                 </Button>
+                {user && user.username === username && (
+                  <DeleteButton postId={postId} callback={deletePostCallback} />
+                )}
               </Card.Content>
             </Card>
           </Grid.Column>
@@ -74,7 +82,7 @@ const SinglePost = ({ match }) => {
     );
   }
 
-  return <div>Single Post Page: {postId}</div>;
+  return postMarkup;
 };
 
 export default SinglePost;

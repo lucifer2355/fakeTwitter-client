@@ -3,12 +3,13 @@ import { Button, Icon, Confirm } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import { DELETE_POST_MUTATION } from "../graphql/mutation/deletePost";
 
-const DeleteButton = ({ postId }) => {
+const DeleteButton = ({ postId, callback }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   const [deletePost] = useMutation(DELETE_POST_MUTATION, {
     update() {
       setConfirmOpen(false);
+      if (callback) callback();
     },
     variables: {
       postId,
